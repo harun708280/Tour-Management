@@ -1,23 +1,34 @@
 import { NextFunction, Request, Response } from "express";
 import httpStatus from "http-status-codes";
-import { User } from "./user.model";
+
 import { UserServices } from "./user.service";
 
-export const createUser = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const user = await UserServices.createUserService(req.body)
-    res.status(httpStatus.CREATED).json({
-      message: "User Created Successfully",
-      user,
-    });
-  } catch (error: any) {
-    console.log(error);
-    res.status(httpStatus.BAD_REQUEST).json({
-      message: `Something Went wrong ${error.message}`,
+import { catchAsync } from "../../utils/catchAsync";
+import { sendResponse } from "../../utils/sendResponse";
+
+export const createUser = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const user = await UserServices.createUserService(req.body);
+    
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.CREATED,
+      message: "User Create Successfully",
+      data: user,
     });
   }
-};
+);
+
+export const getAllUser = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const users = await UserServices.getAllUser();
+     sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "User get Successfully",
+      meta:users.meta,
+      data: users.data,
+      
+    });
+  }
+);
