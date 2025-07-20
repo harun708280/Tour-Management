@@ -16,6 +16,7 @@ export const checkAuth =
         if (!authRoles.includes(varifyToken.role)) {
            throw new AppError(403,'Not Parmit This rolls','') 
         }
+        req.user=varifyToken
         next()
     } catch (error) {
       next(error);
