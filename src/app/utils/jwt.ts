@@ -1,8 +1,9 @@
 import jwt, { JwtPayload, SignOptions } from "jsonwebtoken"
+import { envVars } from "../config/env"
 
 export const generateToken=(payload:JwtPayload,secret:string,expiresIn:string)=>{
     const token=jwt.sign(payload,secret,{
-        expiresIn:"1h"
+        expiresIn:envVars.JWT_ACCESS_EXPIRE
     }as SignOptions)
     return token
 }

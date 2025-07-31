@@ -7,8 +7,9 @@ import { globalErrorHandler } from "./app/middleware/globalErrorHandle";
 import httpStatus  from 'http-status-codes';
 import { success } from "zod";
 import NotFound from "./app/middleware/notFound";
-
+import cookieParser from "cookie-parser"
 const app = express();
+app.use(cookieParser())
 app.use(express.json())
 app.use(cors())
 app.use("/api/v1/",router)
